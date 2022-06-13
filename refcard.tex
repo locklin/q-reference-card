@@ -1,0 +1,368 @@
+\documentclass[twocolumn]{article}
+\usepackage{geometry}
+\usepackage[usenames,dvipsnames,table]{xcolor}
+\usepackage{float}
+\usepackage{textcomp}
+\restylefloat{table}
+
+%\definecolor{tableHeaderColor}{gray}{0.7}
+%\definecolor{tableRowColor1}{gray}{0.9}
+%\definecolor{tableRowColor2}{gray}{1.0}
+\colorlet{tableHeaderColor}{cyan!50}
+\colorlet{tableRowColor1}{cyan!15}
+\colorlet{tableRowColor2}{cyan!0}
+
+\pagenumbering{gobble}
+\geometry{
+	letterpaper,
+	left=0.5cm,
+	right=0.5cm,
+	top=0.75cm,
+	bottom=0.75cm
+}
+
+\newcommand{\caret}{\textasciicircum}
+\newcommand{\mytilde}{\textasciitilde }
+\newcommand{\mygrave}{\textasciigrave }
+\newcommand{\sa}[1]{ {\hfill #1} }
+
+\newcommand{\mlc}[2][c]{%
+  \begin{tabular}[#1]{@{}l@{}}#2\end{tabular}}
+
+\newcommand{\tabletitle}[2]{%
+	\hline
+	\multicolumn{#1}{|c|}{ \cellcolor{tableHeaderColor} \textbf{#2}} \\
+	\hline}
+\newcommand{\tablefooter}[2]{%
+	\multicolumn{#1}{|c|}{\cellcolor{tableRowColor2} #2 }\\}
+
+\newcommand{\byex}[2]{%
+	\multicolumn{1}{|l}{\ttfamily\small{#1}}&{\ttfamily\small{\is #2}} \\}
+\newcommand{\is}{{\color{cyan}$\rightarrow$} }
+
+\newenvironment{desctable}[2]{
+	\begin{table}[H]
+	\rowcolors{1}{tableRowColor2}{tableRowColor1} \mcinherit
+	\begin{tabular}{| >{\ttfamily #2}m{4.0cm} | >{\small}m{4.75cm} |}
+	\tabletitle{2}{#1}
+%	\cellcolor{tableHeaderColor} {\textnormal{Name}} &
+%	\cellcolor{tableHeaderColor} Behavior \\
+}
+{
+	\hline
+	\end{tabular}
+	\end{table}
+}
+
+\newenvironment{refbox}[1]{
+	\begin{table}[H]
+	\rowcolors{1}{tableRowColor1}{tableRowColor2}
+	\begin{tabular}{| >{\small}m{9.25cm} |}
+	\tabletitle{1}{#1}
+}
+{
+	\hline
+	\end{tabular}
+	\end{table}
+}
+
+
+%%%%%%%%%%%%%%%%%%
+%fix tables with multicolumn commands inside to respect alternating colors
+\let\oldmc\multicolumn
+\makeatletter
+\newcommand{\mcinherit}{% Activate \multicolumn inheritance
+  \renewcommand{\multicolumn}[3]{%
+    \oldmc{##1}{##2}{\ifodd\rownum \@oddrowcolor\else\@evenrowcolor\fi ##3}%
+  }}
+\makeatother
+%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+{\huge Q Reference Card}
+
+\begin{table}[H]
+	\rowcolors{1}{tableRowColor2}{tableRowColor1} \mcinherit
+	\begin{tabular}{| >{\ttfamily\small}m{4.25cm} >{\small}m{4.50cm} |}
+	\tabletitle{2}{Lists }
+%	\cellcolor{tableHeaderColor} {\textnormal{Name}} &
+        %	\cellcolor{tableHeaderColor} Behavior \\
+	count, mcount  &  count/moving count  \\ 
+ cross  & cross product    \\ 
+ cut  &  cut operator \_   \\ 
+ enlist  &  create list  \\ 
+ except  & exclude y from x   \\ 
+ fills  &  replace nulls w prec non-null  \\ 
+ first, last  &  head tail items  \\ 
+ flip  & transpose   \\ 
+ group  & ret dict, keys items, vals index   \\ 
+ in  &   is x in y  \\ 
+ inter  &   intersection of x, y \\ 
+ next,prev  &   lags/leads list \\ 
+ raze  & collapses nesting   \\ 
+ reverse  &  reverses order  \\ 
+ rotate  &  shifts y by x  \\ 
+ sublist  &  x sublist of y  \\ 
+ vs  &  y is cut by x delim  \\ 
+ sv  &  joins strings, symbols, path\\ 
+ til  &  first x numbers  \\ 
+ union  &  distinct x,y  \\ 
+ where  &  indexes of list or dictionary keys  \\ 
+ xprev  &  nearby x items in list y \\
+	\hline
+	\end{tabular}
+\end{table}
+
+\begin{desctable}{Iterators}{\small}
+	\textquotesingle                            & each\\
+	\textquotesingle :                          & peach, each prior \\
+        /:                         & each right\\
+        \textbackslash :                        & each left \\
+	/                          & over\\
+        \textbackslash             & scan\\
+        Do &     n v1\textbackslash x, n v1/x\\
+        Converge &    (v1\textbackslash)x, (v1/)x\\
+        While & t v1\textbackslash x,t v1/x\\
+\end{desctable}
+
+\begin{desctable}{Tables }{\small} 
+cols &  columnnames of a table \\ 
+ fkeys & foreign-key columns  \\ 
+ insert &  insert/append records \\ 
+ key &   returns key of dictionary/table x\\ 
+ keys &  gets or sets key columns of table \\ 
+ meta &  table metadata \\ 
+ ungroup &  returns normalized table  \\ 
+ upsert & overwrite or append records  \\ 
+ xasc &  sorts (a) table y by x columns \\ 
+ xdesc &  sorts (d) table y by x cols   \\ 
+ xcol &  rename table columns \\ 
+ xcols &  reorder table columns \\ 
+ xgroup &  returns y grouped by x \\ 
+ xkey  & sets x columns primary key for y \\
+ asof,aj,aj0 & asof joins trades, quotes \\
+ ij, lj, wj    & inner, left, window joins   \\
+
+\end{desctable}
+
+\begin{desctable}{Sorts}{\small}
+asc, desc  &   ascending, descending sort    \\
+ bin binr  &   binary search, binsearch right    \\
+
+ differ  &    where list items change value   \\
+ distinct  & unique list items      \\
+ iasc, idesc  & ascending, descending grades       \\
+ rank  & position in sorted list     \\
+ xbar  &     y rounded down to x multiple  \\
+ xrank  &    group y items by x buckets  \\
+	\hline
+	\multicolumn{2}{|c|}{ \cellcolor{tableHeaderColor} List Statistics} \\
+	\hline
+	\tablefooter{2}{\ttfamily\footnotesize           wavg sum wsum ceiling floor mod inv neg prd prds ratios}
+	\hline
+	\multicolumn{2}{|c|}{ \cellcolor{tableHeaderColor} Sliding Windows (width, list)} \\
+	\hline	
+	\tablefooter{2}{\ttfamily\footnotesize mmax     msum mdev     med  avg avgs deltas dev cor  cov svar var }
+
+	\hline
+\end{desctable}
+
+\begin{desctable}{Math}{\small}
+        ratios                        & ratios between items \\
+        prd, prds                     & product, cum product \\
+	lsq                       & Solve $Ax = B$ for x. \\
+	inv                       & Inverse of matrix  \\
+	mmu                           & Multiply matrices x and y \\
+        deltas                        & returns \\
+	ema                       & EWMA with x = alpha \\
+        within                    & x atom/list, y ordered pair/list\\
+	flip                      & Matrix transpose of y \\
+
+	\hline
+	\tablefooter{2}{\ttfamily\footnotesize + -  {*} \%  min   max   mins maxs  mmin   }
+
+	\tablefooter{2}{\ttfamily\footnotesize
+          
+mmax     msum mdev     med  avg avgs dev cor  cov svar var }
+      
+
+	\tablefooter{2}{\ttfamily\footnotesize
+          wavg sum wsum ceiling floor mod neg rand }
+
+
+	\tablefooter{2}{\ttfamily\footnotesize             reciprocal scov sdev signum  sums svar  var }
+\tablefooter{2}{\ttfamily\footnotesize            
+        abs exp acos asin atan log cos sin sqrt tan xexp xlog }
+
+
+\end{desctable}
+
+\begin{desctable}{Tokens}{\small}
+  !             & make a dictionary \\
+	\$         & Cast cond mmul\\
+	{{.}}           & apply index trap \\
+	{{@}}           & index apply trap AT  \\
+	{{?}}              & find deal select \\
+        {{\textquotesingle}}           & each raise compose\\
+        {{\textquotesingle :}}          & each parallel \\
+        {{\_}}           & cut \\
+        {{\#}}            & take set-attr \\
+        \{\}              & lambda\\
+        \textasciicircum   & fill coalesce \\
+        {{:}}             & assign\\
+        {{::}}            & null token/global assign \\
+        {{;}}             & separator \\
+        {{\textasciigrave :}}            &    file/network path \\
+        {{\textasciigrave}}             & symbol \\
+        0: 1: 2:        & file text, file binary, dlload \\
+	\hline
+	\multicolumn{2}{|c|}{ \cellcolor{tableHeaderColor} Comparison} \\
+	\hline
+	\tablefooter{2}{\ttfamily\footnotesize $\mathtt{\sim}$ =  <>  >  >=  <   <=  \&  |  }
+
+\end{desctable}
+
+\begin{desctable}{IO}{\small}
+  getenv & get local env vars \\
+  dsave &  global splayed save\\
+  get, set &  read or set a variable or mmap \\
+  hopen, hclose &  open, close a connection or file\\
+  hcount &  file size in bytes\\
+  hdel  &  delete file/folder\\
+  hsym &  symbols to file/ process\\
+  load,rload &  load binary file/splayed table\\
+  read0,read1 &  read text,bytes from file/process\\
+  save,rsave &  save var,table to file/splay\\
+	\hline
+	\tablefooter{2}{Launch with \texttt{-p <portnumber>} for IPC}
+\end{desctable}
+
+
+\begin{desctable}{slash/syscmds}{\scriptsize}
+	\textbackslash a             & List tables in namespace \\
+	\textbackslash b             & List views in namespace \\
+	\textbackslash c size        & console rows/columns \\
+	\textbackslash cd            & change file directory \\
+	\textbackslash d ns          & change namespace to ns \\
+        \textbackslash e 0 1 2       & error trap level\\
+	\textbackslash f             & List the functions in a namespace \\
+        \textbackslash g             & gc mode \\
+	\textbackslash l             & Load file or directory \\
+	\textbackslash p             & show or change listening port \\
+	\textbackslash S             & Set or show random seed \\
+        \textbackslash t             & Set timer interval \\
+        \textbackslash ts exp        & Show time/space for exp \\
+        \textbackslash v             & List variables in namespace \\
+        \textbackslash w             & Workspace memory use \\
+        \textbackslash VAL           & VAL executed by OS \\
+        .                            & push the stack \\
+\end{desctable}
+% left out \e \o \r \s \u \w \W \x \z as they're rarely used
+
+\begin{desctable}{\texttt{ Queries}}{\small}
+ delete  &  delete rows/columns  \\
+ exec  & return selected subtable   \\
+ fby  & conditional apply used with where    \\
+ select from by where & usual sql select syntax   \\
+ update from by where  &  usual sql update syntax \\
+\end{desctable}
+
+% 2.25
+
+
+\begin{desctable}{\texttt{ Attributes}}{\small}
+attr  & attributes of object    \\
+ null  &  is null ?  \\
+ tables  &  list of tables in namespace   \\
+ type & type of object     \\
+ view  &  define a view  \\
+ views  &  list views in namespace  \\
+
+\end{desctable}
+
+
+\begin{desctable}{\texttt{ Interpret}}{\small}
+  eval    & evaluate a parse tree   \\ 
+  parse   &   parse string into tree \\ 
+  reval   &   restricted eval  \\ 
+  show    &   writes x to console \\ 
+  system  &   executes returns char \\ 
+  value   &   recurse interp \\
+\end{desctable}
+
+\begin{desctable}{\texttt{ Text tools}}{\small}
+
+like  & x text matches y pattern   \\
+ lower, upper  &  change case  \\
+ ltrim, rtrim, trim  & removes nulls from string   \\
+ md5  &   md5 hash \\
+ ss  &  search x string y pattern \\
+ ssr  &  replc x string y pattern z replc \\
+ string  &  cast to string  \\
+
+		\hline
+
+\end{desctable}
+
+
+\begin{table}[H]
+	\rowcolors{1}{tableRowColor2}{tableRowColor1}
+	\begin{tabular}{| >{\ttfamily\footnotesize\centering\arraybackslash}m{2.0cm}
+            | >{\ttfamily\footnotesize\centering\arraybackslash}m{2.0cm}
+            | >{\ttfamily\small}m{1.00cm}
+            | >{\ttfamily\small}m{1.25cm}
+            | >{\ttfamily\footnotesize\centering\arraybackslash}m{1.25cm} | }
+		\tabletitle{5}{Q types}
+		\cellcolor{tableHeaderColor} {\textnormal{Example}} &
+		\cellcolor{tableHeaderColor} {\texttt{name}} &
+		\cellcolor{tableHeaderColor} {\texttt{n}} &
+                \cellcolor{tableHeaderColor} {\texttt{sz}} &
+		\cellcolor{tableHeaderColor} {\texttt{c}} \\
+                {[dateTtime]}      & datetime       & 15 &  8  & z \\
+                {[2000.01.01]}     & date           & 14 &  4  & d \\
+                {[2001.01m]}       & month          & 13 &  4  & m \\
+                {dateDtimespan}    & timestamp      & 12 &  8  & p \\
+                {00:00:00.000000000} & timespan     & 16 & 8  & n \\
+                {00:00}             & minute        & 17 & 4 & u \\
+                {00:00:00}          & second        & 18 & 4 & v \\
+                {00:00:00.000}      & time          & 19 & 4 & t \\
+		{[1 2]}            & list           & 0  &   & * \\
+                {0b}               & bool           & 1  & 1  & b \\
+                {0x00}             & byte           & 4  & 1  & x \\
+                {0h}               & short          & 5  & 2  & h \\
+                {0i}               & int            & 6  & 4  & i \\
+                {0j}               & long            & 7  & 8  & j \\
+                {0e}               & real            & 8  & 4  & e \\
+                {0f}               & float           & 9  & 8  & f \\
+                { }               & char            & 10 & 8  & c \\
+                {\textasciigrave}               & symbol          & 11 & 8  & s \\
+		\hline
+	\end{tabular}
+\end{table}
+
+
+\begin{desctable}{\texttt{ flow control}}{\small}
+
+  {{?}}[x;y;z;...]  & x vector conditional/lazy eval   \\
+  .[x;y;z] & trap try x on y/catch z \\
+  @[x;y;z] & unary try x on y cath z\\
+  do[count;e1;e2;...;en] & do count e expressions\\
+  if[test;e1;e2;...;en] & if test e expressions\\
+  while[test;e1;e2;...;en] & while test e expressions\\
+  {{'}}             & signal abort \\
+  {{:}}             & explicit return \\
+
+  \hline
+
+\end{desctable}
+
+
+
+
+\end{document}
+
+
+
+
+
+
