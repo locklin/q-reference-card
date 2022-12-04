@@ -92,7 +92,8 @@
  cut  &  cut operator \_   \\ 
  enlist  &  create list  \\ 
  except  & exclude y from x   \\ 
- fills  &  replace nulls w prec non-null  \\ 
+ fills  &  replace nulls w prec non-null  \\
+ fill \string^  & fills nulls with x \\
  first, last  &  head tail items  \\ 
  flip  & transpose   \\ 
  group  & ret dict, keys items, vals index   \\ 
@@ -203,6 +204,7 @@ mmax     msum mdev     med  avg avgs dev cor  cov svar var }
 	{{.}}           & apply index trap \\
 	{{@}}           & index apply trap AT  \\
 	{{?}}              & find deal select \\
+        {{\string^}}              & fill null with left \\
         {{\textquotesingle}}           & each raise compose\\
         {{\textquotesingle :}}          & each parallel \\
         {{\_}}           & cut \\
@@ -250,7 +252,7 @@ mmax     msum mdev     med  avg avgs dev cor  cov svar var }
 	\textbackslash l             & Load file or directory \\
 	\textbackslash p             & show or change listening port \\
 	\textbackslash S             & Set or show random seed \\
-        \textbackslash t             & Set timer interval \\
+        \textbackslash t:n           & Set timer interval optional n\\
         \textbackslash ts exp        & Show time/space for exp \\
         \textbackslash v             & List variables in namespace \\
         \textbackslash w             & Workspace memory use \\
@@ -263,7 +265,7 @@ mmax     msum mdev     med  avg avgs dev cor  cov svar var }
  delete  &  delete rows/columns  \\
  exec  & return selected subtable   \\
  fby  & conditional apply used with where    \\
- select from by where & usual sql select syntax   \\
+ select ps by pb from t where p & usual sql select syntax   \\
  update from by where  &  usual sql update syntax \\
 \end{desctable}
 
@@ -352,6 +354,22 @@ like  & x text matches y pattern   \\
   {{'}}             & signal abort \\
   {{:}}             & explicit return \\
 
+  \hline
+
+\end{desctable}
+
+
+
+\begin{desctable}{\texttt{Foreigns}}{\small}
+
+  -16!x  & reference count for x   \\
+   0N!x  & show x \\
+  -33!x  & sha1 on string x\\
+  -8!x   & to IPC bytes \\
+  -9!x   & from IPC bytes \\
+  -11!(n;x) & stream exec ctrl, x logfile handle\\
+  -21!x & compression stats x file\\
+  .Q.w[]  & memory stats \\
   \hline
 
 \end{desctable}
